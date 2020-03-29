@@ -24,23 +24,23 @@ public class Graph {
 	public Graph(int size,boolean[] visited,int numberOfProcessors){
 		this.size = size;
 		localQueues = new ArrayList<Queue<Integer>>(numberOfProcessors);
-		for(int i=0;i<numberOfProcessors;i++){
+		for(int i=0; i < numberOfProcessors; i++){
 			localQueues.add(new PriorityQueue<Integer>());
 		}
 		vertices = new int[size][size];
 		this.visited = visited;
 		isDone = false;
 		globalQueue = new PriorityQueue<Integer>();
-		globalQueue.add(size-1);
+		globalQueue.add(size - 1);
 		counter = 0;
-		for(int i = 0; i<this.size; i++)
-			for(int j = 0; j<this.size; j++){
+		for(int i = 0; i < this.size; i++)
+			for(int j = 0; j < this.size; j++){
 				Random boolNumber = new Random();
                 boolean edge = boolNumber.nextBoolean();
-                if(i==j)
-                	vertices[i][j]=1;
+                if(i == j)
+                	vertices[i][j] = 1;
                 else	
-                	vertices[i][j]=edge ? 1 : 0;
+                	vertices[i][j] = edge ? 1 : 0;
 			}
 	}
 	public int getSize(){
@@ -62,7 +62,7 @@ public class Graph {
 	}
 	
 	public boolean isNeighbour(int node, int neighbour){
-		return vertices[node][neighbour]==1 ? true : false;
+		return vertices[node][neighbour]==1;
 	}
 	
 	public synchronized void incrementCounter(){
@@ -100,8 +100,8 @@ public class Graph {
 				visited[node] = true;
 				counter++;
 				boolean flag = false;
-				for(int i = 0;i<size;i++){
-					if(node==i)continue;
+				for(int i = 0; i < size; i++){
+					if(node == i)continue;
 					if(isNeighbour(node, i) && !visited[i] && !flag){
 						localQueues.get(index).add(i);
 						flag = true;
@@ -116,7 +116,7 @@ public class Graph {
 			isDone = true;
 		if(isDone && counter<size){
 			isDone = false;
-			for(int i=0;i<size;i++){
+			for(int i = 0; i < size; i++){
 				if(!visited[i])
 					globalQueue.add(i);
 			}
